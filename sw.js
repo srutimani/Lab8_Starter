@@ -45,6 +45,9 @@ self.addEventListener('fetch', function (event) {
         if (cachedResponse) {
           return cachedResponse;
         }
+        if(!event.request.url.startsWith('http')) {
+          return fetch(event.request);
+        }
         return fetch(event.request).then((networkResponse) => {
           cache.put(event.request, networkResponse.clone());
           return networkResponse;
